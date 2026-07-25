@@ -4,6 +4,10 @@ import { useEffect, useState } from "react";
 
 type VoteType = "nice" | "bad";
 type VoteCounts = { nice: number; bad: number };
+type VotesResponse = {
+  counts: Record<string, VoteCounts>;
+  voted: Record<string, VoteType>;
+};
 
 export function VoteButtons({ id }: { id: string }) {
   const [counts, setCounts] = useState<VoteCounts>({ nice: 0, bad: 0 });
@@ -11,15 +15,11 @@ export function VoteButtons({ id }: { id: string }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedVote = window.localStorage.getItem(
-      `vote:${id}`,
-    ) as VoteType | null;
-    if (storedVote) setVoted(storedVote);
-
     fetch("/api/votes")
       .then((res) => res.json())
-      .then((all: Record<string, VoteCounts>) => {
-        setCounts(all[id] ?? { nice: 0, bad: 0 });
+      .then((data: VotesResponse) => {
+        setCounts(data.counts[id] ?? { nice: 0, bad: 0 });
+        setVoted(data.voted[id] ?? null);
         setLoading(false);
       });
   }, [id]);
@@ -27,15 +27,15 @@ export function VoteButtons({ id }: { id: string }) {
   async function vote(type: VoteType) {
     if (voted) return;
     setVoted(type);
-    window.localStorage.setItem(`vote:${id}`, type);
 
     const res = await fetch("/api/votes", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id, vote: type }),
     });
-    const updated: VoteCounts = await res.json();
-    setCounts(updated);
+    const data: { counts: VoteCounts; voted: VoteType } = await res.json();
+    setCounts(data.counts);
+    setVoted(data.voted);
   }
 
   const total = counts.nice + counts.bad;

@@ -14,7 +14,8 @@ Webアプリを開発している。
 - 各UIデモは `components/demos/*.tsx` に実装(nice/bad のペア、または評価が分かれる単体コンポーネント)。
 - 投票APIは `app/api/votes/route.ts`。**インメモリ(Map)** で票数を保持しているため、
   サーバー再起動やサーバーレス環境(Lambda)ではリセットされる。デモ用の仮実装。
-- 投票済みかどうかは `localStorage` に保存し、同一ブラウザからの多重投票をUI上で防止(強制力はない)。
+- 投票済みかどうかは `httpOnly` Cookie(`vote_<componentId>`, 有効期限1日)に保存。サーバー側(`app/api/votes/route.ts`)でもCookieを見て
+  二重投票を拒否するため、UI操作だけでなくAPIを直接叩いた場合でも1日以内の再投票は防止される(1日経過後は再投票可能)。
 - 必須要件だった「Amazon方式(トライアングル判定)」は `components/demos/TriangleMenuDemos.tsx` に実装。
   階層ドロップダウンメニューで、親項目からサブメニューへ斜めに移動する際の当たり判定を
   三角形に広げる(+クローズを遅延させる)実装(nice)と、素朴な実装(bad、隙間で即座に閉じる)を比較。
@@ -25,7 +26,8 @@ Webアプリを開発している。
   - Amplify Data (AppSync + DynamoDB) — Amplify Gen2との統合が最も楽
   - 外部DB(Supabase Postgres等)をRoute Handlerから叩く
   - 本番投入時は `app/api/votes/route.ts` のインメモリMapを置き換える
-- 投票の不正防止(同一人物の多重投票対策)は未実装。IPやCookieでの軽い制限を検討中。
+- 投票の不正防止は「同一ブラウザで1日以内の再投票を防ぐ」Cookie制限のみ実装済み。Cookie削除やシークレットモードでの回避は可能なため、
+  本格的な不正防止(IP制限等)が必要なら別途検討。
 - 掲載コンポーネントを増やす場合は `app/page.tsx` の `entries` 配列に追記するだけでよい構成。
 
 ## 開発
