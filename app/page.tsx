@@ -56,14 +56,14 @@ const entries: GalleryEntry[] = [
     category: "ナビゲーション",
     title: "階層メニュー(Amazon方式)",
     description:
-      "カーソルとサブメニュー上下端を結ぶ三角形(当たり判定)の内側にいる間は、斜めに移動しても閉じない",
+      "カーソルとサブメニュー上下端を結ぶ三角形に当たり判定を付与する",
     Demo: NiceTriangleMenu,
     wide: true,
   },
   {
     id: "menu-bad",
     category: "ナビゲーション",
-    title: "階層メニュー(素朴な実装)",
+    title: "階層メニュー(Simple)",
     description: "当たり判定の余白がなく、斜め移動で即座に閉じてしまう",
     Demo: BadTriangleMenu,
     wide: true,
@@ -99,7 +99,7 @@ const entries: GalleryEntry[] = [
   {
     id: "validation-generic",
     category: "フォームバリデーション(表示)",
-    title: "「正しいメールアドレスを入力してください」のみ表示",
+    title: "エラー内容が不十分",
     description: "何が具体的に悪いのかは分からない",
     Demo: ValidationGenericOnly,
   },

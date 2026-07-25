@@ -16,7 +16,7 @@ export function LoadingSpinnerOnly() {
   }
 
   return (
-    <div className="w-full max-w-xs text-center">
+    <div className="w-full max-w-xs text-left">
       <button
         onClick={start}
         className="mb-3 rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white"
@@ -28,7 +28,7 @@ export function LoadingSpinnerOnly() {
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-zinc-300 border-t-indigo-600" />
         </div>
       )}
-      {done && <p className="text-sm text-zinc-400">完了しました(内容の見た目は事前に分からない)</p>}
+      {done && <p className="text-sm text-zinc-600 dark:text-zinc-300">記事のタイトルと本文がここに表示されます。</p>}
     </div>
   );
 }

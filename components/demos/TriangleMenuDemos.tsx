@@ -382,10 +382,6 @@ export function NiceTriangleMenu() {
   );
 }
 
-// 素朴な実装: 行・行とサブメニューの間の隙間・サブメニュー自体のいずれかに
-// マウスがある間は開いたままにする(隙間だけを理由に閉じることはない)。
-// ただし軌道判定は行わないため、隙間を大きく外れて別の行の上を経由するような
-// 斜め移動をすると、その時点で別の項目に切り替わるか閉じてしまう。
 export function BadTriangleMenu() {
   const [activeKey, setActiveKey] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -423,10 +419,6 @@ export function BadTriangleMenu() {
         <MainList activeKey={activeKey} />
         {activeKey && <SubmenuList activeKey={activeKey} />}
       </div>
-      <p className="text-xs text-zinc-400">
-        軌道判定なし。行とサブメニューの隙間自体では閉じないが、
-        別の行の上を経由するような斜め移動をすると切り替わったり閉じたりする
-      </p>
     </div>
   );
 }

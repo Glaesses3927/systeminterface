@@ -17,7 +17,7 @@ export function ValidationOnKeystroke() {
   return (
     <div className="w-full max-w-xs">
       <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-        メールアドレス(1文字入力するたびに判定)
+        メールアドレス
       </label>
       <input
         value={value}
@@ -36,7 +36,7 @@ export function ValidationOnBlur() {
   return (
     <div className="w-full max-w-xs">
       <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-        メールアドレス(フォーカスが外れた後に判定)
+        メールアドレス
       </label>
       <input
         value={value}
@@ -61,7 +61,7 @@ export function ValidationOnDebounce() {
   return (
     <div className="w-full max-w-xs">
       <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-        メールアドレス(最終入力から2秒後に判定)
+        メールアドレス
       </label>
       <input
         value={value}
@@ -83,7 +83,7 @@ export function ValidationOnSubmit() {
   return (
     <div className="w-full max-w-xs">
       <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-        メールアドレス(送信時のみ判定)
+        メールアドレス
       </label>
       <input
         value={value}
@@ -99,7 +99,7 @@ export function ValidationOnSubmit() {
         <p className="mt-1 text-xs text-rose-500">{result.error}</p>
       )}
       {result.submitted && !result.error && (
-        <p className="mt-1 text-xs text-emerald-600">送信できます(検証OK)</p>
+        <p className="mt-1 text-xs text-emerald-600">送信されました</p>
       )}
       <button
         onClick={() => setResult({ error: validateEmail(value), submitted: true })}

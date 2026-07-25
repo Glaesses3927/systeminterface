@@ -11,11 +11,8 @@ export function SwitchUnclear() {
         aria-pressed={on}
         className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-700 dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-200"
       >
-        通知ON
+        通知{on ? "ON" : "OFF"}
       </button>
-      <p className="text-xs text-zinc-400">
-        文言が常に「通知ON」のままなので、今ONなのか、押すとONになるのかが分からない
-      </p>
     </div>
   );
 }
@@ -35,9 +32,6 @@ export function SwitchClear() {
       >
         通知は{on ? "ON" : "OFF"}です
       </button>
-      <p className="text-xs text-zinc-400">
-        文言が現在の状態をそのまま表すので、押すとどちらに切り替わるかが分かる
-      </p>
     </div>
   );
 }

@@ -6,7 +6,7 @@ export function DeleteSimpleConfirm() {
   const [open, setOpen] = useState(false);
   const [deleted, setDeleted] = useState(false);
 
-  if (deleted) return <p className="text-sm text-zinc-500">(実際には削除されていません)</p>;
+  if (deleted) return <p className="text-sm text-zinc-500">削除されました</p>;
 
   return (
     <>
@@ -50,7 +50,7 @@ export function DeleteTypeToConfirm() {
   const [text, setText] = useState("");
   const [deleted, setDeleted] = useState(false);
 
-  if (deleted) return <p className="text-sm text-zinc-500">(実際には削除されていません)</p>;
+  if (deleted) return <p className="text-sm text-zinc-500">削除されました</p>;
 
   return (
     <>
@@ -129,7 +129,7 @@ export function DeleteWithUndo() {
         </p>
       ) : (
         <div className="flex items-center justify-between rounded-md border border-zinc-200 px-3 py-2 text-sm dark:border-zinc-700">
-          買い物リスト.txt
+          買い物リスト
           <button onClick={handleDelete} className="text-rose-500 hover:text-rose-600">
             削除
           </button>

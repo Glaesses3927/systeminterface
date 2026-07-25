@@ -14,7 +14,7 @@ export function CreditCardAutoFormat() {
   return (
     <div className="w-full max-w-xs">
       <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-        カード番号(自動で4桁ごとに空白を挿入)
+        カード番号
       </label>
       <input
         value={value}
@@ -33,7 +33,7 @@ export function CreditCardRaw() {
   return (
     <div className="w-full max-w-xs">
       <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-        カード番号(区切りなし)
+        カード番号
       </label>
       <input
         value={value}
@@ -42,7 +42,6 @@ export function CreditCardRaw() {
         placeholder="4242424242424242"
         className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:outline-none dark:border-zinc-700 dark:bg-zinc-900"
       />
-      <p className="mt-1 text-xs text-zinc-400">16桁が数字の連続で表示され、一目で確認しづらい</p>
     </div>
   );
 }

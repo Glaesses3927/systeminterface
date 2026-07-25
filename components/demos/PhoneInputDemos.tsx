@@ -20,7 +20,7 @@ export function PhoneSplitBoxes() {
   return (
     <div className="w-full max-w-xs">
       <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-        電話番号(3つのボックスに分解)
+        電話番号
       </label>
       <div className="flex items-center gap-1.5">
         {parts.map((part, i) => (
@@ -51,7 +51,7 @@ export function PhoneHyphenRequired() {
   return (
     <div className="w-full max-w-xs">
       <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-        電話番号(ハイフン必須)
+        電話番号（ハイフン必須）
       </label>
       <input
         value={value}
@@ -80,13 +80,13 @@ export function PhoneHyphenOptional() {
   return (
     <div className="w-full max-w-xs">
       <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-        電話番号(ハイフンは任意)
+        電話番号（ハイフンは任意）
       </label>
       <input
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onBlur={() => setTouched(true)}
-        placeholder="09012345678 でも 090-1234-5678 でもOK"
+        placeholder="09012345678, 090-1234-5678"
         className={`w-full rounded-md border px-3 py-2 text-sm focus:outline-none dark:bg-zinc-900 ${
           invalid ? "border-rose-400" : "border-zinc-300 dark:border-zinc-700"
         }`}

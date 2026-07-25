@@ -18,8 +18,7 @@ export function NotificationModalForLowPriority() {
           <div className="w-72 rounded-lg bg-white p-5 text-left shadow-xl dark:bg-zinc-900">
             <h4 className="text-base font-semibold">テーマが更新されました</h4>
             <p className="mt-2 text-sm text-zinc-500">
-              新しいテーマ「ダーク」が適用されました。この通知だけの些細な内容にもかかわらず、
-              操作をブロックするモーダルで表示されています。
+              新しいテーマ「ダーク」が適用されました。再度変更するには、設定画面の「テーマ」から変更してください。
             </p>
             <button
               onClick={() => setOpen(false)}
@@ -58,12 +57,9 @@ export function NotificationToastForHighPriority() {
       >
         決済を実行する
       </button>
-      <p className="mt-2 text-xs text-zinc-400">
-        重要な失敗通知が2.5秒で消える右下トースト風に表示されます(見落としやすい想定)
-      </p>
       {showToast && (
         <div className="fixed bottom-4 right-4 z-50 max-w-xs rounded-md bg-zinc-800 px-3 py-2 text-left text-sm text-white shadow-lg">
-          支払いに失敗しました。カード情報を確認してください。
+          支払いに失敗しました。カード情報を確認してください。（予約はできていません。ご注意ください。）
         </div>
       )}
     </div>
