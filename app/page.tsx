@@ -21,7 +21,16 @@ import {
   InfiniteScrollDemo,
 } from "@/components/demos/AmbiguousDemos";
 
-const entries = [
+type GalleryEntry = {
+  id: string;
+  category: string;
+  title: string;
+  description: string;
+  Demo: () => React.ReactElement;
+  wide?: boolean;
+};
+
+const entries: GalleryEntry[] = [
   {
     id: "button-nice",
     category: "ボタン",
@@ -55,8 +64,9 @@ const entries = [
     category: "ナビゲーション",
     title: "階層メニュー(Amazon方式)",
     description:
-      "親項目からサブメニューへ斜めに移動しても、三角形の当たり判定と遅延クローズで閉じにくい",
+      "カーソルとサブメニュー上下端を結ぶ三角形(当たり判定)の内側にいる間は、斜めに移動しても閉じない",
     Demo: NiceTriangleMenu,
+    wide: true,
   },
   {
     id: "menu-bad",
@@ -64,6 +74,7 @@ const entries = [
     title: "階層メニュー(素朴な実装)",
     description: "当たり判定の余白がなく、斜め移動で即座に閉じてしまう",
     Demo: BadTriangleMenu,
+    wide: true,
   },
   {
     id: "cookie-nice",
@@ -149,7 +160,7 @@ const entries = [
     description: "ページ番号なしで自動的に追加読み込みされる一覧",
     Demo: InfiniteScrollDemo,
   },
-] as const;
+];
 
 export default function Home() {
   return (
@@ -167,13 +178,14 @@ export default function Home() {
       </header>
       <main className="mx-auto max-w-6xl px-6 py-8">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {entries.map(({ id, category, title, description, Demo }) => (
+          {entries.map(({ id, category, title, description, Demo, wide }) => (
             <GalleryCard
               key={id}
               id={id}
               category={category}
               title={title}
               description={description}
+              wide={wide}
             >
               <Demo />
             </GalleryCard>
