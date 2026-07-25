@@ -1,25 +1,45 @@
 import { GalleryCard } from "@/components/GalleryCard";
-import { NiceButton, BadButton } from "@/components/demos/ButtonDemos";
-import { NiceForm, BadForm } from "@/components/demos/FormLabelDemos";
 import {
   NiceTriangleMenu,
   BadTriangleMenu,
 } from "@/components/demos/TriangleMenuDemos";
 import {
-  NiceCookieConsent,
-  BadCookieConsent,
-} from "@/components/demos/CookieConsentDemos";
-import { NiceModal, BadModal } from "@/components/demos/ModalDemos";
-import { NicePassword, BadPassword } from "@/components/demos/PasswordDemos";
+  ValidationOnKeystroke,
+  ValidationOnBlur,
+  ValidationOnDebounce,
+  ValidationOnSubmit,
+} from "@/components/demos/ValidationTimingDemos";
 import {
-  NiceDestructiveConfirm,
-  BadDestructiveConfirm,
-} from "@/components/demos/DestructiveConfirmDemos";
-import { NiceLoading, BadLoading } from "@/components/demos/LoadingDemos";
+  ValidationGenericOnly,
+  ValidationTopSummary,
+  ValidationInline,
+  ValidationInlineWithFix,
+  ValidationSuccessCheck,
+} from "@/components/demos/ValidationDisplayDemos";
 import {
-  AmbiguousToggle,
-  InfiniteScrollDemo,
-} from "@/components/demos/AmbiguousDemos";
+  PhoneSplitBoxes,
+  PhoneHyphenRequired,
+  PhoneHyphenOptional,
+} from "@/components/demos/PhoneInputDemos";
+import {
+  CreditCardAutoFormat,
+  CreditCardRaw,
+} from "@/components/demos/CreditCardInputDemos";
+import {
+  DeleteSimpleConfirm,
+  DeleteTypeToConfirm,
+  DeleteWithUndo,
+} from "@/components/demos/DeleteUndoDemos";
+import {
+  LoadingSpinnerOnly,
+  LoadingSkeletonOnly,
+  LoadingSkeletonWithProgress,
+} from "@/components/demos/LoadingVariantsDemos";
+import { SwitchUnclear, SwitchClear } from "@/components/demos/SwitchClarityDemos";
+import {
+  NotificationModalForLowPriority,
+  NotificationToastForHighPriority,
+} from "@/components/demos/NotificationMismatchDemos";
 
 type GalleryEntry = {
   id: string;
@@ -31,34 +51,6 @@ type GalleryEntry = {
 };
 
 const entries: GalleryEntry[] = [
-  {
-    id: "button-nice",
-    category: "ボタン",
-    title: "はっきりしたボタン",
-    description: "押せることが分かり、押すとフィードバックがある",
-    Demo: NiceButton,
-  },
-  {
-    id: "button-bad",
-    category: "ボタン",
-    title: "テキストに見えるボタン",
-    description: "色のコントラストが低く、押しても反応がない",
-    Demo: BadButton,
-  },
-  {
-    id: "form-nice",
-    category: "フォーム",
-    title: "常時表示ラベル",
-    description: "入力中もラベルが消えず、入力欄の意味を保持する",
-    Demo: NiceForm,
-  },
-  {
-    id: "form-bad",
-    category: "フォーム",
-    title: "placeholderのみラベル",
-    description: "入力を始めるとラベル代わりのplaceholderが消える",
-    Demo: BadForm,
-  },
   {
     id: "menu-nice",
     category: "ナビゲーション",
@@ -77,88 +69,172 @@ const entries: GalleryEntry[] = [
     wide: true,
   },
   {
-    id: "cookie-nice",
-    category: "同意・契約",
-    title: "対等な選択肢のCookie同意",
-    description: "同意/拒否のボタンが同じ見た目の重みで並んでいる",
-    Demo: NiceCookieConsent,
+    id: "validation-keystroke",
+    category: "フォームバリデーション(タイミング)",
+    title: "1文字ごとに判定",
+    description: "入力中の未完成な状態にもエラーが即座に出る",
+    Demo: ValidationOnKeystroke,
   },
   {
-    id: "cookie-bad",
-    category: "同意・契約",
-    title: "非対称なCookie同意(ダークパターン)",
-    description: "同意ボタンだけ目立たせ、拒否は罪悪感を煽る小さな文字",
-    Demo: BadCookieConsent,
+    id: "validation-blur",
+    category: "フォームバリデーション(タイミング)",
+    title: "フォーカスが外れた後に判定",
+    description: "入力し終えたタイミングでエラーが出る",
+    Demo: ValidationOnBlur,
   },
   {
-    id: "modal-nice",
-    category: "モーダル",
-    title: "閉じ方が複数あるモーダル",
-    description: "Esc・外側クリック・✕ボタンのいずれでも閉じられる",
-    Demo: NiceModal,
+    id: "validation-debounce",
+    category: "フォームバリデーション(タイミング)",
+    title: "最終入力から数秒後に判定",
+    description: "入力が止まってから少し待ってエラーが出る",
+    Demo: ValidationOnDebounce,
   },
   {
-    id: "modal-bad",
-    category: "モーダル",
-    title: "閉じにくいモーダル",
-    description: "Escも外側クリックも無効で、閉じるボタンも極小",
-    Demo: BadModal,
+    id: "validation-submit",
+    category: "フォームバリデーション(タイミング)",
+    title: "送信時のみ判定",
+    description: "入力中は何も分からず、送信して初めてエラーが分かる",
+    Demo: ValidationOnSubmit,
   },
   {
-    id: "password-nice",
-    category: "入力(セキュリティ)",
-    title: "使いやすいパスワード入力",
-    description: "表示切替・強度表示があり、貼り付けも可能",
-    Demo: NicePassword,
+    id: "validation-generic",
+    category: "フォームバリデーション(表示)",
+    title: "「正しいメールアドレスを入力してください」のみ表示",
+    description: "何が具体的に悪いのかは分からない",
+    Demo: ValidationGenericOnly,
   },
   {
-    id: "password-bad",
-    category: "入力(セキュリティ)",
-    title: "制約の多いパスワード入力",
-    description: "貼り付け不可・文字数を無言で切り捨て・表示切替なし",
-    Demo: BadPassword,
+    id: "validation-top-summary",
+    category: "フォームバリデーション(表示)",
+    title: "送信後に画面上部へまとめて表示",
+    description: "エラー一覧が該当の入力欄から離れた場所に出る",
+    Demo: ValidationTopSummary,
   },
   {
-    id: "confirm-nice",
-    category: "確認ダイアログ",
-    title: "安全な削除確認",
-    description: "「DELETE」と入力しないと削除できない二段階確認",
-    Demo: NiceDestructiveConfirm,
+    id: "validation-inline",
+    category: "フォームバリデーション(表示)",
+    title: "入力欄のすぐ下に原因を表示",
+    description: "何が間違っているかは分かるが、直し方は分からない",
+    Demo: ValidationInline,
   },
   {
-    id: "confirm-bad",
-    category: "確認ダイアログ",
-    title: "危険な削除確認",
-    description: "OKボタンに自動フォーカスがあり、Enterで誤操作しやすい",
-    Demo: BadDestructiveConfirm,
+    id: "validation-inline-fix",
+    category: "フォームバリデーション(表示)",
+    title: "原因と修正方法を表示",
+    description: "何が間違っていて、どう直せばいいかが分かる",
+    Demo: ValidationInlineWithFix,
   },
   {
-    id: "loading-nice",
-    category: "ローディング",
-    title: "スケルトン表示",
-    description: "読み込み中の内容の形を示し、終了時間の見通しを与える",
-    Demo: NiceLoading,
+    id: "validation-success-check",
+    category: "フォームバリデーション(表示)",
+    title: "正常入力時にチェックマーク表示",
+    description: "エラーだけでなく、OKであることも分かる",
+    Demo: ValidationSuccessCheck,
   },
   {
-    id: "loading-bad",
-    category: "ローディング",
-    title: "終わらないスピナー",
-    description: "進捗も残り時間も分からず、いつまでも回り続ける",
-    Demo: BadLoading,
+    id: "phone-split",
+    category: "フォームバリデーション(電話番号)",
+    title: "3つのボックスに分解",
+    description: "市外局番・前半・後半が別々の入力欄になっている",
+    Demo: PhoneSplitBoxes,
   },
   {
-    id: "toggle-ambiguous",
+    id: "phone-hyphen-required",
+    category: "フォームバリデーション(電話番号)",
+    title: "ハイフン必須",
+    description: "ハイフンを含めて入力しないとエラーになる",
+    Demo: PhoneHyphenRequired,
+  },
+  {
+    id: "phone-hyphen-optional",
+    category: "フォームバリデーション(電話番号)",
+    title: "ハイフン任意",
+    description: "ハイフンの有無にかかわらず桁数だけで判定する",
+    Demo: PhoneHyphenOptional,
+  },
+  {
+    id: "creditcard-auto-format",
+    category: "フォームバリデーション(クレジットカード)",
+    title: "自動で4桁ごとに区切る",
+    description: "入力するたびに空白が自動で入り、確認しやすい",
+    Demo: CreditCardAutoFormat,
+  },
+  {
+    id: "creditcard-raw",
+    category: "フォームバリデーション(クレジットカード)",
+    title: "区切りなしでそのまま表示",
+    description: "16桁の数字が連続して見づらい",
+    Demo: CreditCardRaw,
+  },
+  {
+    id: "delete-simple-confirm",
+    category: "削除操作と取り消し",
+    title: "シンプルな削除確認モーダル",
+    description: "「本当に削除しますか?」の一問だけ確認する",
+    Demo: DeleteSimpleConfirm,
+  },
+  {
+    id: "delete-type-to-confirm",
+    category: "削除操作と取り消し",
+    title: "「削除」と入力しないと削除できない",
+    description: "誤操作を防ぐための二段階確認",
+    Demo: DeleteTypeToConfirm,
+  },
+  {
+    id: "delete-with-undo",
+    category: "削除操作と取り消し",
+    title: "確認なしで削除、Undoで取り消し",
+    description: "即座に削除されるが、しばらくは元に戻せる",
+    Demo: DeleteWithUndo,
+  },
+  {
+    id: "loading-spinner-only",
+    category: "ローディング表示",
+    title: "スピナーのみ",
+    description: "読み込み中であることは分かるが、内容の見通しはない",
+    Demo: LoadingSpinnerOnly,
+  },
+  {
+    id: "loading-skeleton-only",
+    category: "ローディング表示",
+    title: "スケルトンのみ",
+    description: "これから表示される内容の形がうっすら見える",
+    Demo: LoadingSkeletonOnly,
+  },
+  {
+    id: "loading-skeleton-progress",
+    category: "ローディング表示",
+    title: "スケルトン+進捗表示",
+    description: "内容の形と進捗率の両方が分かる",
+    Demo: LoadingSkeletonWithProgress,
+  },
+  {
+    id: "switch-unclear",
     category: "スイッチ",
-    title: "色が逆のトグルスイッチ",
-    description: "ONが赤・OFFが緑という配色。分かりやすいか紛らわしいか?",
-    Demo: AmbiguousToggle,
+    title: "状態か操作か分からないボタン",
+    description: "「通知ON」の文言が常に変わらず、今ONなのか押すとONになるのかが分からない",
+    Demo: SwitchUnclear,
   },
   {
-    id: "scroll-ambiguous",
-    category: "一覧表示",
-    title: "無限スクロール",
-    description: "ページ番号なしで自動的に追加読み込みされる一覧",
-    Demo: InfiniteScrollDemo,
+    id: "switch-clear",
+    category: "スイッチ",
+    title: "状態がそのまま文言になっているボタン",
+    description: "「通知はONです/OFFです」と現在の状態がそのまま表示される",
+    Demo: SwitchClear,
+  },
+  {
+    id: "notification-modal-low-priority",
+    category: "通知の表示方法",
+    title: "些細な通知をモーダルで表示",
+    description: "優先度の低い内容なのに操作をブロックするモーダルで表示される",
+    Demo: NotificationModalForLowPriority,
+  },
+  {
+    id: "notification-toast-high-priority",
+    category: "通知の表示方法",
+    title: "重要な通知をトーストで表示",
+    description: "優先度の高い失敗通知が、数秒で消えるトーストで見落とされやすい",
+    Demo: NotificationToastForHighPriority,
   },
 ];
 

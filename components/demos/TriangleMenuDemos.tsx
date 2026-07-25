@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 
-type SubmenuItem = { label: string; icon: string };
+type SubmenuItem = { label: string; icon?: string };
 type MenuItem = {
   key: string;
   label: string;
@@ -72,29 +72,6 @@ const ICONS: Record<string, React.ReactNode> = {
       <path d="M12 3.5l2.4 5.3 5.8.6-4.3 3.9 1.2 5.7L12 16l-5.1 3 1.2-5.7-4.3-3.9 5.8-.6L12 3.5z" />
     </Icon>
   ),
-  x: (
-    <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-zinc-900 text-[9px] font-bold leading-none text-white dark:bg-white dark:text-zinc-900">
-      X
-    </span>
-  ),
-  instagram: (
-    <Icon>
-      <rect x="3.5" y="6" width="17" height="14" rx="3" />
-      <circle cx="12" cy="13.2" r="3.6" />
-      <path d="M8 6l1.3-1.8h5.4L16 6" />
-    </Icon>
-  ),
-  tiktok: (
-    <Icon>
-      <circle cx="9.5" cy="17.5" r="3" />
-      <path d="M12.5 17.5V3.5c.4 2 2.2 3.6 4.5 3.8" />
-    </Icon>
-  ),
-  facebook: (
-    <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#1877F2] text-[10px] font-bold leading-none text-white">
-      f
-    </span>
-  ),
   userEdit: (
     <Icon>
       <path d="M4 20l0.8-3.3L15 6.5l2.5 2.5L7.3 19.2 4 20z" />
@@ -122,10 +99,10 @@ const MAIN_ITEMS: MenuItem[] = [
     label: "シェア",
     icon: "share",
     submenu: [
-      { label: "X", icon: "x" },
-      { label: "Instagram", icon: "instagram" },
-      { label: "TikTok", icon: "tiktok" },
-      { label: "Facebook", icon: "facebook" },
+      { label: "X" },
+      { label: "Instagram" },
+      { label: "TikTok" },
+      { label: "Facebook" },
     ],
   },
   {
@@ -256,7 +233,7 @@ function SubmenuList({ activeKey }: { activeKey: string }) {
           className="flex items-center gap-2 rounded-md px-3 text-sm text-zinc-700 hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-800"
           style={{ height: ROW_HEIGHT, boxSizing: "border-box" }}
         >
-          {ICONS[sub.icon]}
+          {sub.icon && ICONS[sub.icon]}
           {sub.label}
         </li>
       ))}

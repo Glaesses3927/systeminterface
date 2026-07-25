@@ -39,8 +39,8 @@ export function VoteButtons({ id }: { id: string }) {
   }
 
   const total = counts.nice + counts.bad;
-  const nicePct = total ? Math.round((counts.nice / total) * 100) : 0;
-  const badPct = total ? 100 - nicePct : 0;
+  const nicePct = total ? Math.round((counts.nice / total) * 100) : 50;
+  const badPct = 100 - nicePct;
 
   return (
     <div className="mt-4 flex flex-col gap-2">
@@ -54,7 +54,7 @@ export function VoteButtons({ id }: { id: string }) {
               : "border-zinc-300 hover:bg-zinc-50 dark:border-zinc-700 dark:hover:bg-zinc-800"
           } ${voted && voted !== "nice" ? "opacity-50" : ""}`}
         >
-          👍 Nice {!loading && `(${counts.nice})`}
+          👍 Nice
         </button>
         <button
           onClick={() => vote("bad")}
@@ -65,15 +65,13 @@ export function VoteButtons({ id }: { id: string }) {
               : "border-zinc-300 hover:bg-zinc-50 dark:border-zinc-700 dark:hover:bg-zinc-800"
           } ${voted && voted !== "bad" ? "opacity-50" : ""}`}
         >
-          👎 Bad {!loading && `(${counts.bad})`}
+          👎 Bad
         </button>
       </div>
-      {!loading && total > 0 && (
-        <div className="flex h-2 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
-          <div className="bg-emerald-500" style={{ width: `${nicePct}%` }} />
-          <div className="bg-rose-500" style={{ width: `${badPct}%` }} />
-        </div>
-      )}
+      <div className="flex h-2 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
+        <div className="bg-emerald-500" style={{ width: `${nicePct}%` }} />
+        <div className="bg-rose-500" style={{ width: `${badPct}%` }} />
+      </div>
     </div>
   );
 }
