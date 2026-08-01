@@ -9,10 +9,27 @@ type VotesResponse = {
   voted: Record<string, VoteType>;
 };
 
+function ThumbIcon({ down = false }: { down?: boolean }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width={14}
+      height={14}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={down ? "rotate-180" : ""}
+    >
+      <path d="M7 10v10H4V10h3zm0 0l4.5-7a2 2 0 0 1 3.6 1.2L14.5 8H18a2 2 0 0 1 2 2.3l-1.2 8A2 2 0 0 1 16.8 20H7" />
+    </svg>
+  );
+}
+
 export function VoteButtons({ id }: { id: string }) {
   const [counts, setCounts] = useState<VoteCounts>({ nice: 0, bad: 0 });
   const [voted, setVoted] = useState<VoteType | null>(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("/api/votes")
@@ -20,7 +37,6 @@ export function VoteButtons({ id }: { id: string }) {
       .then((data: VotesResponse) => {
         setCounts(data.counts[id] ?? { nice: 0, bad: 0 });
         setVoted(data.voted[id] ?? null);
-        setLoading(false);
       });
   }, [id]);
 
@@ -43,34 +59,37 @@ export function VoteButtons({ id }: { id: string }) {
   const badPct = 100 - nicePct;
 
   return (
-    <div className="mt-4 flex flex-col gap-2">
-      <div className="flex gap-2">
+    <div className="mt-4 border-t border-zinc-100 pt-3 dark:border-zinc-800">
+      <div className="flex overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-700">
         <button
           onClick={() => vote("nice")}
           disabled={!!voted}
-          className={`flex-1 rounded-md border px-3 py-2 text-sm font-medium transition-colors ${
+          className={`flex flex-1 items-center justify-center gap-1.5 py-2 text-[13px] font-medium transition-colors ${
             voted === "nice"
-              ? "border-emerald-500 bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300"
-              : "border-zinc-300 hover:bg-zinc-50 dark:border-zinc-700 dark:hover:bg-zinc-800"
-          } ${voted && voted !== "nice" ? "opacity-50" : ""}`}
+              ? "bg-emerald-600/10 text-emerald-700 dark:text-emerald-400"
+              : "text-zinc-500 hover:bg-zinc-50 dark:text-zinc-400 dark:hover:bg-zinc-800/60"
+          } ${voted && voted !== "nice" ? "opacity-40" : ""}`}
         >
-          👍 Nice
+          <ThumbIcon />
+          Nice
         </button>
+        <div className="w-px bg-zinc-200 dark:bg-zinc-700" />
         <button
           onClick={() => vote("bad")}
           disabled={!!voted}
-          className={`flex-1 rounded-md border px-3 py-2 text-sm font-medium transition-colors ${
+          className={`flex flex-1 items-center justify-center gap-1.5 py-2 text-[13px] font-medium transition-colors ${
             voted === "bad"
-              ? "border-rose-500 bg-rose-50 text-rose-700 dark:bg-rose-900/30 dark:text-rose-300"
-              : "border-zinc-300 hover:bg-zinc-50 dark:border-zinc-700 dark:hover:bg-zinc-800"
-          } ${voted && voted !== "bad" ? "opacity-50" : ""}`}
+              ? "bg-rose-600/10 text-rose-700 dark:text-rose-400"
+              : "text-zinc-500 hover:bg-zinc-50 dark:text-zinc-400 dark:hover:bg-zinc-800/60"
+          } ${voted && voted !== "bad" ? "opacity-40" : ""}`}
         >
-          👎 Bad
+          <ThumbIcon down />
+          Bad
         </button>
       </div>
-      <div className="flex h-2 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
-        <div className="bg-emerald-500" style={{ width: `${nicePct}%` }} />
-        <div className="bg-rose-500" style={{ width: `${badPct}%` }} />
+      <div className="mt-2 flex h-1 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
+        <div className="bg-emerald-600/70" style={{ width: `${nicePct}%` }} />
+        <div className="bg-rose-600/70" style={{ width: `${badPct}%` }} />
       </div>
     </div>
   );

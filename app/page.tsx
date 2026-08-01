@@ -1,3 +1,6 @@
+"use client";
+
+import { useMemo, useState } from "react";
 import { GalleryCard } from "@/components/GalleryCard";
 import {
   NiceTriangleMenu,
@@ -238,35 +241,81 @@ const entries: GalleryEntry[] = [
   },
 ];
 
+function chipClass(active: boolean) {
+  return `whitespace-nowrap rounded-md px-3 py-1.5 text-[13px] font-medium transition-colors ${
+    active
+      ? "bg-amber-600 text-white dark:bg-amber-500 dark:text-zinc-950"
+      : "text-zinc-500 hover:bg-amber-50 dark:text-zinc-400 dark:hover:bg-amber-500/10"
+  }`;
+}
+
 export default function Home() {
+  const categories = useMemo(() => {
+    const seen = new Set<string>();
+    const list: string[] = [];
+    for (const entry of entries) {
+      if (!seen.has(entry.category)) {
+        seen.add(entry.category);
+        list.push(entry.category);
+      }
+    }
+    return list;
+  }, []);
+
+  const [active, setActive] = useState<string | null>(null);
+  const visibleCategories = active ? categories.filter((c) => c === active) : categories;
+
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-black">
-      <header className="border-b border-zinc-200 bg-white px-6 py-8 dark:border-zinc-800 dark:bg-zinc-900">
-        <div className="mx-auto max-w-6xl">
-          <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">
-            UIコンポーネント投票ギャラリー
+    <div className="min-h-screen bg-background">
+      <header className="sticky top-0 z-10 border-b border-zinc-200 bg-background/95 backdrop-blur-sm dark:border-zinc-800">
+        <div className="mx-auto max-w-6xl px-6 pt-6">
+          <p className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.2em] text-amber-700 dark:text-amber-500">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-amber-600 dark:bg-amber-500" />
+            UI Vote Gallery
+          </p>
+          <h1 className="mt-1 text-xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+            ナイス・バッド インタフェース投票
           </h1>
-          <p className="mt-2 max-w-2xl text-sm text-zinc-500 dark:text-zinc-400">
-            各コンポーネントを実際に操作してみて、ナイス👍かバッド👎か投票してください。
-            人によって評価が分かれそうなものも含まれています。
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
+            それぞれのコンポーネントを実際に操作し、良いUIか悪いUIかを投票してください。
+            評価が分かれそうなものも含まれています。
           </p>
         </div>
+        <nav className="mx-auto max-w-6xl overflow-x-auto px-6 py-3">
+          <div className="flex gap-1">
+            <button onClick={() => setActive(null)} className={chipClass(active === null)}>
+              すべて
+            </button>
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setActive(category)}
+                className={chipClass(active === category)}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+        </nav>
       </header>
-      <main className="mx-auto max-w-6xl px-6 py-8">
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {entries.map(({ id, category, title, description, Demo, wide }) => (
-            <GalleryCard
-              key={id}
-              id={id}
-              category={category}
-              title={title}
-              description={description}
-              wide={wide}
-            >
-              <Demo />
-            </GalleryCard>
-          ))}
-        </div>
+      <main className="mx-auto max-w-6xl px-6 py-10">
+        {visibleCategories.map((category) => (
+          <section key={category} className="mb-14">
+            <h2 className="mb-4 flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.15em] text-zinc-400">
+              <span className="inline-block h-1 w-3 rounded-full bg-amber-500/70" />
+              {category}
+            </h2>
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {entries
+                .filter((entry) => entry.category === category)
+                .map(({ id, title, description, Demo, wide }) => (
+                  <GalleryCard key={id} id={id} title={title} description={description} wide={wide}>
+                    <Demo />
+                  </GalleryCard>
+                ))}
+            </div>
+          </section>
+        ))}
       </main>
     </div>
   );
