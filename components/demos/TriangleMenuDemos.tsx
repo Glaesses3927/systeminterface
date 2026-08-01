@@ -185,9 +185,9 @@ function MenuHeader() {
       </div>
       <div className="min-w-0 leading-tight">
         <p className="truncate text-sm font-semibold text-zinc-900 dark:text-zinc-50">
-          Acme
+          UI
         </p>
-        <p className="truncate text-xs text-zinc-400">Workspace</p>
+        <p className="truncate text-xs text-zinc-400">SystemInterface</p>
       </div>
     </div>
   );

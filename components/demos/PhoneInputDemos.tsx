@@ -37,7 +37,6 @@ export function PhoneSplitBoxes() {
           </div>
         ))}
       </div>
-      <p className="mt-1 text-xs text-zinc-400">ハイフンは装飾のみ・入力の必要はありません</p>
     </div>
   );
 }
