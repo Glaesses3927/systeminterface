@@ -14,8 +14,13 @@ Webアプリを開発している。
   `wide: true` を指定したエントリはグリッドの全幅を使う(横に広いメニューデモに使用)。
 - 各UIデモは `components/demos/*.tsx` に実装(nice/bad のペア、比較用の複数バリエーション、
   または評価が分かれる単体コンポーネント)。
-- 投票APIは `app/api/votes/route.ts`。**インメモリ(Map)** で票数を保持しているため、
-  サーバー再起動やサーバーレス環境(Lambda)ではリセットされる。デモ用の仮実装。
+- 投票APIは `app/api/votes/route.ts`。**Amplify Data (AppSync + DynamoDB)** の `ComponentVote` モデル
+  (`amplify/data/resource.ts`)に票数を保存する。Amplifyクライアントは `lib/amplifyClient.ts` で
+  `amplify_outputs.json`(`.gitignore`済み、`npx ampx sandbox` または Amplify Hosting のビルド時に生成される)
+  を読み込んで初期化している。加算は「読み取って+1して書き込む」方式のため、ごく稀に同時投票が重なると
+  1票分のズレが起きる可能性があるが、このアプリの規模では許容している(厳密なアトミック更新にはしていない)。
+  ローカルで動かすには、`npx ampx sandbox` を一度実行して `amplify_outputs.json` を生成する必要がある
+  (未生成の状態では `lib/amplifyClient.ts` の import がビルドエラーになる)。
 - 投票済みかどうかは `httpOnly` Cookie(`vote_<componentId>`, 有効期限1日)に保存。サーバー側(`app/api/votes/route.ts`)でもCookieを見て
   二重投票を拒否するため、UI操作だけでなくAPIを直接叩いた場合でも1日以内の再投票は防止される(1日経過後は再投票可能)。
 - 投票UI([VoteButtons.tsx](components/VoteButtons.tsx))はNice/Badの**件数は表示せず**、割合バーのみを常時表示する。
@@ -46,17 +51,18 @@ Webアプリを開発している。
 
 ## 未決定事項 / TODO
 
-- **DB未決定**。デプロイ先はAWS Amplifyを想定。候補:
-  - Amplify Data (AppSync + DynamoDB) — Amplify Gen2との統合が最も楽
-  - 外部DB(Supabase Postgres等)をRoute Handlerから叩く
-  - 本番投入時は `app/api/votes/route.ts` のインメモリMapを置き換える
 - 投票の不正防止は「同一ブラウザで1日以内の再投票を防ぐ」Cookie制限のみ実装済み。Cookie削除やシークレットモードでの回避は可能なため、
   本格的な不正防止(IP制限等)が必要なら別途検討。
 - 掲載コンポーネントを増やす場合は `app/page.tsx` の `entries` 配列に追記するだけでよい構成。
 
 ## 開発
 
+初回のみ、Amplify Dataのバックエンド(DynamoDB等)をAWSアカウント上に作成する必要がある。
+AWS認証情報(`aws configure`等)を設定した上で以下を実行し、`amplify_outputs.json` が生成されたら
+別ターミナルで `npm run dev`。
+
 ```bash
+npm run sandbox   # npx ampx sandbox。amplify_outputs.json を生成し、以後ローカルの変更を反映し続ける
 npm run dev
 ```
 

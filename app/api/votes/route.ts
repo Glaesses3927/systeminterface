@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { dataClient } from "@/lib/amplifyClient";
 
 type VoteType = "nice" | "bad";
 type VoteCounts = { nice: number; bad: number };
-
-const store = new Map<string, VoteCounts>();
 
 const VOTE_COOKIE_PREFIX = "vote_";
 const VOTE_MAX_AGE_SECONDS = 60 * 60 * 24; // 1日
@@ -19,8 +18,11 @@ function readVotedFromCookies(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
+  const { data: votes } = await dataClient.models.ComponentVote.list();
   const counts: Record<string, VoteCounts> = {};
-  for (const [id, c] of store) counts[id] = c;
+  for (const vote of votes) {
+    counts[vote.componentId] = { nice: vote.nice ?? 0, bad: vote.bad ?? 0 };
+  }
 
   return NextResponse.json({
     counts,
@@ -40,11 +42,30 @@ export async function POST(request: NextRequest) {
   const alreadyVoted = request.cookies.get(cookieName)?.value as
     | VoteType
     | undefined;
-  const current = store.get(id) ?? { nice: 0, bad: 0 };
+
+  const { data: existing } = await dataClient.models.ComponentVote.get({
+    componentId: id,
+  });
+  let current: VoteCounts = {
+    nice: existing?.nice ?? 0,
+    bad: existing?.bad ?? 0,
+  };
 
   if (!alreadyVoted) {
-    current[vote] += 1;
-    store.set(id, current);
+    current = { ...current, [vote]: current[vote] + 1 };
+    if (existing) {
+      await dataClient.models.ComponentVote.update({
+        componentId: id,
+        nice: current.nice,
+        bad: current.bad,
+      });
+    } else {
+      await dataClient.models.ComponentVote.create({
+        componentId: id,
+        nice: current.nice,
+        bad: current.bad,
+      });
+    }
   }
 
   const response = NextResponse.json({
