@@ -13,13 +13,6 @@ import {
   ValidationOnSubmit,
 } from "@/components/demos/ValidationTimingDemos";
 import {
-  ValidationGenericOnly,
-  ValidationTopSummary,
-  ValidationInline,
-  ValidationInlineWithFix,
-  ValidationSuccessCheck,
-} from "@/components/demos/ValidationDisplayDemos";
-import {
   PhoneSplitBoxes,
   PhoneHyphenRequired,
   PhoneHyphenOptional,
@@ -98,41 +91,6 @@ const entries: GalleryEntry[] = [
     title: "送信時のみ判定",
     description: "送信時にバリデーションが走ります",
     Demo: ValidationOnSubmit,
-  },
-  {
-    id: "validation-top-summary",
-    category: "フォームバリデーション(表示)",
-    title: "画面上部にまとめて表示",
-    description: "エラーが上部にまとめて表示されます",
-    Demo: ValidationTopSummary,
-  },
-  {
-    id: "validation-inline",
-    category: "フォームバリデーション(表示)",
-    title: "入力欄下部に表示",
-    description: "該当箇所にエラーが表示されます",
-    Demo: ValidationInline,
-  },
-  {
-    id: "validation-generic",
-    category: "フォームバリデーション(表示)",
-    title: "エラー内容が曖昧",
-    description: "",
-    Demo: ValidationGenericOnly,
-  },
-  {
-    id: "validation-inline-fix",
-    category: "フォームバリデーション(表示)",
-    title: "エラー内容が具体的",
-    description: "",
-    Demo: ValidationInlineWithFix,
-  },
-  {
-    id: "validation-success-check",
-    category: "フォームバリデーション(表示)",
-    title: "正常入力時にチェックマーク表示",
-    description: "",
-    Demo: ValidationSuccessCheck,
   },
   {
     id: "phone-split",
@@ -271,7 +229,7 @@ export default function Home() {
         <div className="mx-auto max-w-6xl px-6 pt-6">
           <p className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.2em] text-amber-700 dark:text-amber-500">
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-amber-600 dark:bg-amber-500" />
-            UI Vote Gallery
+            UIvote
           </p>
           <h1 className="mt-1 text-xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
             ナイス・バッド インタフェース投票

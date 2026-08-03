@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "UIコンポーネント投票ギャラリー",
+  title: "UIvote",
   description: "ナイス/バッドなUIコンポーネントに投票するギャラリー",
 };
 
