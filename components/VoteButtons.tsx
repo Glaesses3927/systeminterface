@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { sendGAEvent } from "@next/third-parties/google";
 
 type VoteType = "nice" | "bad";
 type VoteCounts = { nice: number; bad: number };
@@ -43,6 +44,7 @@ export function VoteButtons({ id }: { id: string }) {
   async function vote(type: VoteType) {
     if (voted) return;
     setVoted(type);
+    sendGAEvent("event", "vote", { component_id: id, vote_type: type });
 
     const res = await fetch("/api/votes", {
       method: "POST",
